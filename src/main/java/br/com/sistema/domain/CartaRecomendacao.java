@@ -20,4 +20,7 @@ public class CartaRecomendacao implements Serializable{
 	private Date data;
 	private String secreatrio;
 	private String pastor;
+	
+	//associaçoes
+	
 }
