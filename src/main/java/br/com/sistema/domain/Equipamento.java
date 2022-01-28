@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Equipamento implements Serializable{
 	/**
@@ -19,30 +21,31 @@ public class Equipamento implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	private Integer id;
-	private String nome;
+	private String nomeEquipamento;
 	private Integer	quantidade;
 	
 	//associacao com igreja
 	@ManyToOne
 	@JoinColumn(name="igreja_id")
+	@JsonIgnore
 	private Igreja igreja;
 	
-	//associacao com consumo
 	@ManyToOne
 	@JoinColumn(name="consumo_id")
+	@JsonIgnore
 	private Consumo consumo;
 
 	public Equipamento() {
 		
 	}
 
-	public Equipamento(Integer id, String nome, Integer quantidade, Igreja igreja, Consumo consumo) {
+	public Equipamento(Integer id, String nomeEquipamento, Integer quantidade, Igreja igreja, Consumo consumo) {
 		
 		this.id = id;
-		this.nome = nome;
+		this.nomeEquipamento = nomeEquipamento;
 		this.quantidade = quantidade;
 		this.igreja = igreja;
-		this.consumo = consumo;
+		this.consumo = (consumo ==null)?null:consumo;
 	}
 
 	public Integer getId() {
@@ -53,12 +56,12 @@ public class Equipamento implements Serializable{
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getNomeEquipamento() {
+		return nomeEquipamento;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNomeEquipamento(String nomeEquipamento) {
+		this.nomeEquipamento = nomeEquipamento;
 	}
 
 	public Integer getQuantidade() {

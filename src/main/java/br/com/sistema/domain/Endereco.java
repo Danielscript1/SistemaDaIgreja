@@ -30,21 +30,17 @@ public class Endereco implements Serializable{
 	private String cep; 
 	
 	
-	//associação com igreja um para um
-	//Associações (inicie as coleções)
-	@OneToOne(mappedBy = "endereco",cascade = CascadeType.ALL)
-	private Igreja igreja;
-	
+
 	//endereco com usuario
 	@ManyToOne
 	@JoinColumn(name="usuario_id")
+	@JsonIgnore
 	private Usuario usuario;
 	
 	
 	//endereco associação
 	@ManyToOne
 	@JoinColumn(name="cidade_id")
-	@JsonIgnore
 	private Cidade cidade;
 
 
@@ -54,7 +50,7 @@ public class Endereco implements Serializable{
 
 
 	public Endereco(Integer id, String logradouro, String numero, String complemento, String bairro, String cep,
-			Igreja igreja, Usuario usuario, Cidade cidade) {
+			 Usuario usuario, Cidade cidade) {
 		super();
 		this.id = id;
 		this.logradouro = logradouro;
@@ -62,7 +58,6 @@ public class Endereco implements Serializable{
 		this.complemento = complemento;
 		this.bairro = bairro;
 		this.cep = cep;
-		this.igreja = igreja;
 		this.usuario = usuario;
 		this.cidade = cidade;
 	}
@@ -128,14 +123,7 @@ public class Endereco implements Serializable{
 	}
 
 
-	public Igreja getIgreja() {
-		return igreja;
-	}
-
-
-	public void setIgreja(Igreja igreja) {
-		this.igreja = igreja;
-	}
+	
 
 
 	public Usuario getUsuario() {

@@ -2,9 +2,11 @@ package br.com.sistema.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,9 +20,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)//anotacao para definir herança InheritanceType.SINGLE_TABLE ou InheritanceType.JOINED
 public class Igreja implements Serializable{
 	/**Checklist para criar entidades:
 	o Atributos básicos
@@ -35,10 +37,10 @@ public class Igreja implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	private Integer id;
-	private String nome;
+	private String nomeIgreja;
 	private String nomePastor;
 	private String email;
-	private Double calculoDezPorCento;
+	
 	
 	//associação com carteiraMembro
 	@OneToMany(mappedBy = "igreja")
@@ -60,18 +62,11 @@ public class Igreja implements Serializable{
 	@OneToMany(mappedBy = "igreja")
 	private List<Lideres> lideres = new ArrayList<>();
 	
-	//associação com igreja um pra um
-	@JsonIgnore
-	@OneToOne
-	@JoinColumn(name="ata_id")
-	@MapsId
-	private Ata ata;
 	
-	//associacao com endereco
-	@JsonIgnore
-	@OneToOne
+	
+	@ManyToOne
 	@JoinColumn(name="endereco_id")
-	@MapsId
+	@JsonIgnore
 	private Endereco endereco;
 	
 	//associação com usuario
@@ -79,23 +74,66 @@ public class Igreja implements Serializable{
 	private List<Usuario> usuarios = new  ArrayList<>();
 	
 	//associação com carteira de membro
+//	@OneToMany(mappedBy = "igreja")
+//	@JsonIgnore
+//	List<CarteiraMembro> carteiraMembros = new ArrayList<>();
+	
+	//mapeamento com revista
+	//associação com carteira de membro
 	@OneToMany(mappedBy = "igreja")
-	List<CarteiraMembro> carteiraMembros = new ArrayList<>();
+	List<Revista> revistas = new ArrayList<>();
+		
+	
+	//MAPEAMENTO 
+	@OneToMany(mappedBy = "igreja")
+	List<Filias> filias = new ArrayList<>();
+	
+	//mapeamento com carta de recomendacao
+	@OneToMany(mappedBy = "igreja")
+	List<CartaRecomendacao> cartaRecomendacao = new ArrayList<>();
+	
+	
+	//endereco associação
+	
+	@ManyToOne
+	@JoinColumn(name="ata_id")
+	private Ata ata;
+	
+	private Double salario;
 	
 	public Igreja() {
 	
 	}
 
-	public Igreja(Integer id, String nome, String nomePastor, String email, Double calculoDezPorCento, Ata ata,
-			Endereco endereco) {
+	public Igreja(Integer id, String nomeIgreja, String nomePastor,  String email, Double salario,Endereco endereco,
+			Ata ata) {
 		
 		this.id = id;
-		this.nome = nome;
+		this.nomeIgreja = nomeIgreja;
 		this.nomePastor = nomePastor;
 		this.email = email;
-		this.calculoDezPorCento = calculoDezPorCento;
-		this.ata = ata;
-		this.endereco = endereco;
+		this.salario = salario;
+		this.endereco = (endereco==null)?null:endereco;
+		this.setAta(ata);
+		
+	}
+
+	
+	
+	
+
+	
+	
+	public List<CarteiraMembro> getCarteiraMembro() {
+		return carteiraMembro;
+	}
+
+	public Double getSalario() {
+		return salario;
+	}
+
+	public void setSalario(Double salario) {
+		this.salario = salario;
 	}
 
 	public Integer getId() {
@@ -106,12 +144,12 @@ public class Igreja implements Serializable{
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getNomeIgreja() {
+		return nomeIgreja;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNomeIgreja(String nomeIgreja) {
+		this.nomeIgreja = nomeIgreja;
 	}
 
 	public String getNomePastor() {
@@ -137,6 +175,10 @@ public class Igreja implements Serializable{
 	public void setAta(Ata ata) {
 		this.ata = ata;
 	}
+	
+	
+
+
 
 	public Endereco getEndereco() {
 		return endereco;
@@ -146,13 +188,7 @@ public class Igreja implements Serializable{
 		this.endereco = endereco;
 	}
 
-	public Double getCalculoDezPorCento() {
-		return calculoDezPorCento;
-	}
 
-	public List<CarteiraMembro> getCarteiraMembro() {
-		return carteiraMembro;
-	}
 
 	public List<Evento> getEventos() {
 		return eventos;
@@ -173,6 +209,40 @@ public class Igreja implements Serializable{
 	public List<Usuario> getUsuarios() {
 		return usuarios;
 	}
+	
+	
+	
+	public List<Revista> getRevistas() {
+		return revistas;
+	}
+	
+	
+
+	public List<Filias> getFilias() {
+		return filias;
+	}
+	
+	
+
+	public List<CartaRecomendacao> getCartaRecomendacao() {
+		return cartaRecomendacao;
+	}
+	
+	
+
+	
+
+
+	//metodo calculo 10%
+	public Double getCalculoDezPorCento() {
+		Double soma = 0.0;
+		return soma = getSalario()*10/100;
+	
+	}
+	
+	
+
+	
 
 	@Override
 	public int hashCode() {

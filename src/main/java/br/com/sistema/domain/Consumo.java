@@ -23,10 +23,7 @@ public class Consumo implements Serializable{
 	private String nome;
 	private Double custo;
 	
-	//associacao com equipamentos
-	@OneToMany(mappedBy = "consumo")
-	private List<Equipamento> equipamentos = new ArrayList<>();
-
+	
 	public Consumo() {
 		
 	}
@@ -66,9 +63,7 @@ public class Consumo implements Serializable{
 		this.custo = custo;
 	}
 
-	public List<Equipamento> getEquipamentos() {
-		return equipamentos;
-	}
+	
 
 	@Override
 	public int hashCode() {

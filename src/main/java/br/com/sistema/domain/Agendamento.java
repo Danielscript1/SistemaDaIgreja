@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Agendamento implements Serializable{
 	/**Checklist para criar entidades:
@@ -25,22 +27,23 @@ public class Agendamento implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	private Integer id;
-	private String nome;
+	private String nomeAgendamento;
 	private Date data;
 	
 	//associação com igreja muitos pra um
 	@ManyToOne
 	@JoinColumn(name="igreja_id")
+	@JsonIgnore
 	private Igreja igreja;
 
 	public Agendamento() {
 		
 	}
 
-	public Agendamento(Integer id, String nome, Date data, Igreja igreja) {
+	public Agendamento(Integer id, String nomeAgendamento, Date data, Igreja igreja) {
 		
 		this.id = id;
-		this.nome = nome;
+		this.nomeAgendamento = nomeAgendamento;
 		this.data = data;
 		this.igreja = igreja;
 	}
@@ -53,12 +56,12 @@ public class Agendamento implements Serializable{
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getNomeAgendamento() {
+		return nomeAgendamento;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNomeAgendamento(String nomeAgendamento) {
+		this.nomeAgendamento = nomeAgendamento;
 	}
 
 	public Date getData() {

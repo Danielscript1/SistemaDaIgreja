@@ -6,24 +6,39 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
-@JsonTypeName("filias") 
-public class Filias extends Igreja{
+public class Filias {
+	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY) 	
+	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	private Integer id;
-
+	private String nomeFilial;
+	private Integer quantidadeFilial;
+	
+	
+	//ASSOCIACAO COM IGREJA
+	@ManyToOne
+	@JoinColumn(name="igreja_id")
+	@JsonIgnore
+	private Igreja igreja;
+	
 	public Filias() {
 		
 	}
 
-	public Filias(Integer id, String nome, String nomePastor, String email, Double calculoDezPorCento, Ata ata,
-			Endereco endereco) {
-		super(id, nome, nomePastor, email, calculoDezPorCento, ata, endereco);
-		
+	public Filias(Integer id, String nomeFilial, Integer quantidadeFilial, Igreja igreja) {
+		super();
+		this.id = id;
+		this.nomeFilial = nomeFilial;
+		this.quantidadeFilial = quantidadeFilial;
+		this.igreja = igreja;
 	}
 
 	public Integer getId() {
@@ -34,19 +49,40 @@ public class Filias extends Igreja{
 		this.id = id;
 	}
 
+	public String getNomeFilial() {
+		return nomeFilial;
+	}
+
+	public void setNomeFilial(String nomeFilial) {
+		this.nomeFilial = nomeFilial;
+	}
+
+	public Integer getQuantidadeFilial() {
+		return quantidadeFilial;
+	}
+
+	public void setQuantidadeFilial(Integer quantidadeFilial) {
+		this.quantidadeFilial = quantidadeFilial;
+	}
+
+	public Igreja getIgreja() {
+		return igreja;
+	}
+
+	public void setIgreja(Igreja igreja) {
+		this.igreja = igreja;
+	}
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(id);
-		return result;
+		return Objects.hash(id);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -54,6 +90,24 @@ public class Filias extends Igreja{
 		return Objects.equals(id, other.id);
 	}
 
+	
+	
+	
+
+	
+	
+	
+	
+
+
+	
+
+
+	
+
+
+
+	
 	
 	
 }

@@ -1,6 +1,7 @@
 package br.com.sistema.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -9,11 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-public class Evento implements Serializable{
+public class Revista implements Serializable{
+
 	/**
 	 * 
 	 */
@@ -21,24 +20,30 @@ public class Evento implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	private Integer id;
-	private String nomeEvento;
+	private String nomeRevista;
 	private String descricao;
+	private String urlImagem;
+	private Date inicioCiclo;
+	private Date fimCiclo;
 	
-	//associacao com igreja
+	//mapeamento com igreja
 	@ManyToOne
 	@JoinColumn(name="igreja_id")
-	@JsonIgnore
 	private Igreja igreja;
 
-	public Evento() {
+	public Revista() {
 		
 	}
 
-	public Evento(Integer id, String nomeEvento, String descricao, Igreja igreja) {
+	public Revista(Integer id, String nomeRevista, String descricao, String urlImagem, Date inicioCiclo, Date fimCiclo,
+			Igreja igreja) {
 		
 		this.id = id;
-		this.nomeEvento = nomeEvento;
+		this.nomeRevista = nomeRevista;
 		this.descricao = descricao;
+		this.urlImagem = urlImagem;
+		this.inicioCiclo = inicioCiclo;
+		this.fimCiclo = fimCiclo;
 		this.igreja = igreja;
 	}
 
@@ -50,12 +55,12 @@ public class Evento implements Serializable{
 		this.id = id;
 	}
 
-	public String getNomeEvento() {
-		return nomeEvento;
+	public String getNomeRevista() {
+		return nomeRevista;
 	}
 
-	public void setNomeEvento(String nomeEvento) {
-		this.nomeEvento = nomeEvento;
+	public void setNomeRevista(String nomeRevista) {
+		this.nomeRevista = nomeRevista;
 	}
 
 	public String getDescricao() {
@@ -64,6 +69,30 @@ public class Evento implements Serializable{
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public String getUrlImagem() {
+		return urlImagem;
+	}
+
+	public void setUrlImagem(String urlImagem) {
+		this.urlImagem = urlImagem;
+	}
+
+	public Date getInicioCiclo() {
+		return inicioCiclo;
+	}
+
+	public void setInicioCiclo(Date inicioCiclo) {
+		this.inicioCiclo = inicioCiclo;
+	}
+
+	public Date getFimCiclo() {
+		return fimCiclo;
+	}
+
+	public void setFimCiclo(Date fimCiclo) {
+		this.fimCiclo = fimCiclo;
 	}
 
 	public Igreja getIgreja() {
@@ -87,9 +116,12 @@ public class Evento implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Evento other = (Evento) obj;
+		Revista other = (Revista) obj;
 		return Objects.equals(id, other.id);
 	}
 	
 	
+	
+	
+
 }

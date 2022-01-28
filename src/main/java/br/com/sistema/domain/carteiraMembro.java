@@ -35,15 +35,20 @@ public class CarteiraMembro implements Serializable{
 	//associação
 	@ManyToOne
 	@JoinColumn(name="certificado_id")
-	@JsonIgnore
 	private Certificado certificado;
 	
 	//muitos para um
 	@ManyToOne
 	@JoinColumn(name="igreja_id")
+	@JsonIgnore
 	private Igreja igreja;
 
-	
+	//mapeamento com usuario ->uma carteira de membro conhecer o usuario
+	@ManyToOne
+	@JoinColumn(name="usuario_id")
+	@JsonIgnore
+	private Usuario usuario;
+
 	
 	public CarteiraMembro() {
 		
@@ -52,14 +57,15 @@ public class CarteiraMembro implements Serializable{
 
 
 	public CarteiraMembro(Integer id, String nome, Date dataExpedicao, Date adesaoMinisterio, Certificado certificado,
-			Igreja igreja) {
+			Igreja igreja/*,Usuario usuario*/) {
 		
 		this.id = id;
 		this.nome = nome;
-		this.dataExpedicao = dataExpedicao;
-		this.AdesaoMinisterio = adesaoMinisterio;
-		this.certificado = certificado;
-		this.igreja = igreja;
+		this.dataExpedicao = (dataExpedicao == null)?null:dataExpedicao;
+		this.AdesaoMinisterio = (adesaoMinisterio == null)?null: adesaoMinisterio;
+		this.setCertificado(certificado);
+		this.setIgreja(igreja);
+		//this.usuario = (usuario == null)?null:usuario;
 	}
 
 
@@ -133,6 +139,17 @@ public class CarteiraMembro implements Serializable{
 	public void setIgreja(Igreja igreja) {
 		this.igreja = igreja;
 	}
+	
+	
+	/*public Usuario getUsuario() {
+		return usuario;
+	}
+
+
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}*/
 
 
 
@@ -140,7 +157,11 @@ public class CarteiraMembro implements Serializable{
 	public int hashCode() {
 		return Objects.hash(id);
 	}
+	
+	
 
+
+	
 
 
 	@Override

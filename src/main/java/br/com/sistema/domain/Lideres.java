@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Lideres implements Serializable{
 	/**
@@ -25,6 +27,7 @@ public class Lideres implements Serializable{
 	//associação com igreja
 	@ManyToOne
 	@JoinColumn(name="igreja_id")
+	@JsonIgnore
 	private Igreja igreja;
 
 	public Lideres() {
